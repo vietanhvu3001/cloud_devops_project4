@@ -95,5 +95,12 @@ jobs:
         working-directory: starter/frontend
       
       - name: Deploy to EKS cluster
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: frontend
+          IMAGE_TAG: ${{ github.sha }}
         run: |
           aws eks update-kubeconfig --region us-east-1 --name cluster
+          kustomize edit set image frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+          kustomize build | kubectl apply -f -
+        working-directory: starter/frontend/k8s
