@@ -73,5 +73,5 @@ jobs:
         working-directory: starter/backend
 
       - name: Build application
-        run: python build
+        run: pipenv run python build
         working-directory: starter/backend
