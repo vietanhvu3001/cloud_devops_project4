@@ -93,3 +93,7 @@ jobs:
           docker build --build-arg REACT_APP_MOVIE_API_URL=$REACT_APP_MOVIE_API_URL -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
         working-directory: starter/frontend
+      
+      - name: Deploy to EKS cluster
+        run: |
+          aws eks update-kubeconfig --region us-east-1 --name cluster
